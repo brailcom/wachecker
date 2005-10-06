@@ -4,7 +4,6 @@
 @set VERSION 0.1
 @settitle WAchecker @value{VERSION}
 @syncodeindex fn cp
-@syncodeindex ky cp
 @syncodeindex vr cp
 @comment %**end of header
 @copying
@@ -17,8 +16,6 @@ Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.2 or
 any later version published by the Free Software Foundation; with no
 Invariant Sections, with no Front-Cover Texts and no Back-Cover Texts.
-A copy of the license is included in the section entitled ``GNU Free
-Documentation License.''
 @end quotation
 
 Alternatively, you can distribute this manual under the same
@@ -62,68 +59,69 @@ USA.
 @contents
 
 @ifnottex
-@node Top, Introduction, (dir), (dir)
+@node Top, Overview, (dir), (dir)
 @top WAchecker
 
 @insertcopying
 @end ifnottex
 
 @menu
-* Introduction::                What is WAchecker?
+* Overview::                    What is WAchecker?
 * Installation::                How to install it.
 * Using WAchecker::             Calling tests from Python programs.
 * Writing Tests::               Making new WAchecker tests.
 * Contact Information::         Bug reporting etc.
-
-* Copying This Program::        GNU General Public License.
-* Copying This Manual::         GNU Free Documentation License.
 * Index::                       Concept, function, variable and key index.
 @end menu
 
 @c ****************************************************************************
 
-@node Introduction, Installation, Top, Top
-@chapter Introduction
+@node Overview, Installation, Top, Top
+@chapter Overview
 
 WAchecker is a Python library serving for automated testing of Web
-accessibility.  It is designed with the goal to be free and easily
-extensible to allow its grow by collaborative approach.  As such it is
-unique among existing Web accessibility testing tools.
+accessibility.  It is designed with the goal to provide a free and
+easily extensible tool, which can be further improved by collaborative
+approach to its development.  As such it is unique among existing Web
+accessibility testing tools.
 
-@cindex CSS
+@cindex CSS2
 @cindex Web Content Accessibility Guidelines
 @cindex Section 508
 WAchecker contains testing infrastructure, miscellaneous utilities,
-simple CSS parser, and set of tests covering Web Content Accessibility
-Guidelines 1.0 and Section 508.
+simple CSS2 parser, and set of tests covering Web Content
+Accessibility Guidelines 1.0 and U.S. Section 508.
 
 @cindex WAassistant
 WAchecker is just a library.  User interface to Web accessibility
 testing is provided by another tool,
-@ref{WAassistant,,,(waassistant)}, which is a Web application for
-complex testing of Web accessibility features.
+@uref{http://www.freebsoft.org/wahelper,WAassistant}, which is a Web
+application for complex testing of Web accessibility features.
 
 WAchecker is, as well as other common Web accessibility checking
 tools, just an @emph{assistive} tool.  Not all Web accessibility
 criteria can be reasonably checked automatically.  Many of them
-require judgement by a human.  Thus WAchecker detects only a subset of
-all the possible problems.  For the other group of accessibility
-problems it tries to indicate possible places of errors.  For
-instance, WAchecker can detect whether a Web page contains images and
-whether they contain @code{alt} attributes, but it can't check
-descriptiveness of the alternative texts, it just presents them to be
-reviewed by a human.  So you can't expect such tools to the
-accessibility checking task on their own, human review is always
-needed.  Another tool called WAassistant can help with the complex
-review process.
+require human review.  That means WAchecker can detect only a subset
+of all the possible problems.  For the other group of accessibility
+problems it tries to indicate at least the places where they can
+occur.  For instance, WAchecker can detect whether a Web page contains
+images and whether they contain @code{alt} attributes, but it can't
+check whether the alternative texts correspond to the contents of the
+images.  It can just present the alternative texts and images to a
+human reviewer.  So you can't expect such tools to perform complete
+accessibility testing, human review is always needed.  The WAassistant
+application mentioned above can help with the whole review process.
 
 @c ****************************************************************************
 
-@node Installation, Using WAchecker, Introduction, Top
+@node Installation, Using WAchecker, Overview, Top
 @chapter Installation
 
-You can download WAchecker from @url{???}.
+@cindex download
+You can download WAchecker from
+@uref{http://www.freebsoft.org/wahelper}.
 
+@cindex installation requirements
 WAchecker requires the following software for its installation and
 operation:
 
@@ -132,16 +130,18 @@ operation:
 Python 2.3 or higher.
 
 @item
-Python distutils.  They are part of Python distribution, but if you
-use a GNU/Linux distribution, they may be packaged in a separate
-binary package.
+@cindex distutils
+Python distutils.  They are part of Python distribution, but some
+operating system distributions deliver them in a separate package.
 
 @item
+@cindex Yappy
 Yappy, a parser generator for Python, available at
-@url{http://www.ncc.up.pt/fado/Yappy/} or perhaps in your favorite
-operating system distribution.
+@url{http://www.ncc.up.pt/fado/Yappy/} or in your operating system
+distribution.
 @end itemize
 
+@cindex installation
 After you have WAchecker downloaded and all the required software
 installed, you can perform installation in the following steps:
 
@@ -150,17 +150,21 @@ installed, you can perform installation in the following steps:
 Unpack WAchecker distribution and switch to its top level directory.
 
 @item
+@cindex @file{config.py}
+@vindex @code{cache_directory}
+@vindex @code{test_directories}
 Edit @file{config.py} file to your needs.  You may want to change
 especially the @code{cache_directory} and @code{test_directories}
 variables.
 
 @item
+@cindex setup.py
 Run @code{./setup.py install}.
 
 @item
 If you want to build documentation, switch to the @file{doc/}
-subdirectory and run @code{make info} to build Info documentation or
-@code{make pdf} to build PDF manual.
+subdirectory and run @samp{make info}, @samp{make pdf} and @samp{make
+html} to build Info, PDF and HTML version of the manual respectively.
 @end itemize
 
 @c ****************************************************************************
@@ -168,40 +172,52 @@ subdirectory and run @code{make info} to build Info documentation or
 @node Using WAchecker, Writing Tests, Installation, Top
 @chapter Using WAchecker
 
+@cindex user interface
 WAchecker is a Python library.  As such it doesn't contain any end
-user program.  If you want to work with the library in a user
-interface, refer to WAassistant.
+user program.  If you want to work with the library using a user
+interface, look at @uref{http://www.freebsoft.org/wahelper,WAassistant}.
 
 @menu
-* Running Single Tests::        
-* The Issue Class::             
-* Test Sets::                   
+* Running Single Tests::        Testing a page against a particular test.
+* The Issue Class::             Representation of test results.
+* Test Sets::                   Groups of related tests.
 @end menu
 
 @node Running Single Tests, The Issue Class, Using WAchecker, Using WAchecker
 @section Running Single Tests
 
-To run a particular test against some URL in your Python program, you
-must perform the following steps:
+To run a particular test in your Python program, against a page
+located at the given URL, you must perform the following steps:
 
 @itemize @bullet
 @item
-Define location on which the test should be run:
+@cindex location
+@vindex @code{Location}
+Define @dfn{location} on which the test should be run:
 
 @example
 import wachecker.location
 location = wachecker.location.Location ('http://www.example.com')
 @end example
 
-By default (unless overridden in @file{config.py}) WAchecker caches
-Web pages it fetches.  To use a fresh copy of a page, use the
+@cindex @file{config.py}
+@vindex @code{refresh_cache}
+@cindex caching pages
+@cindex @code{wachecker.location}
+By default (unless overridden with the @code{refresh_cache} variable
+in @file{config.py}) WAchecker caches Web pages it fetches.  To use a
+fresh copy of a page instead of the cached version, use the
 @code{refresh_cache} optional argument:
 
 @example
-location = wachecker.location.Location ('http://www.example.com', refresh_cache=True)
+location = wachecker.location.Location ('http://www.example.com',
+                                        refresh_cache=True)
 @end example
 
 @item
+@cindex test
+@findex @code{load_all_tests}
+@cindex @code{wachecker.test}
 Create a test instance:
 
 @example
@@ -210,15 +226,25 @@ wachecker.test.load_all_tests ()
 test = wachecker.test.Test__WCAG_1__1_1 ()
 @end example
 
-The @code{load_all_tests} ensures all tests from the locations defined
-in @file{config.py} are loaded.  In this example, test testing against
-Web Content Accessibility Guidelines 1.0, checkpoint 1.0 is run.
+@vindex @code{test_directories}
+The @code{load_all_tests} ensures all tests from the directories
+defined the variable @code{test_directories} in @file{config.py} are
+loaded.  In this example, test testing for conformance with Web
+Content Accessibility Guidelines 1.0, checkpoint 1.0 is run.
 
+@cindex test classes and instances
+Note test constructors take no arguments.  Tests are represented by
+their classes, their instances serve only for storing auxiliary data
+when performing the test.
+
+@findex all_tests
 List of all available tests can be retrieved using the
 @code{wachecker.test.all_tests ()} call, which returns sequence of
 pairs @code{(@var{test-class-name}, @var{test-class})}.
 
 @item
+@cindex running tests
+@findex @code{run}
 Run the test on the given location:
 
 @example
@@ -231,61 +257,68 @@ instances described in following section.
 
 @node The Issue Class, Test Sets, Running Single Tests, Using WAchecker
 @section The Issue Class
+@vindex @code{Issue}
 
 The @code{run} method of tests returns sequence of instances of the
-class @code{wachecker.test.Issue}.  That class doesn't provide any
-facilities except for several attributes containing all the
+class @code{wachecker.test.Issue}.  That class doesn't define any
+methods, it just contains public attributes providing all the
 information about identified accessibility issues:
 
-@table @code
+@vtable @code
 @item description
 Description of the identified issue as a string.
 
 @item data
-Additional data regarding the issue.  This can be arbitrary value
-including @code{None} if there is no such data.  For instance, if an
-image with alternative text is found, @code{data} contains the text.
+Additional data regarding the issue.  This can be an arbitrary value
+including @code{None} (if no additional data is provided).  For
+instance, if an image containing on alternative text is found,
+@code{data} may contain the text.
 
 @item input_position
+@cindex line
+@cindex column
 Position (line and column) of the issue in the source page.  This is
-either a pair of two integers @code{(@var{line}, @code{column})} or
-@code{None}.  
+either a pair of two integers @code{(@var{line}, @var{column})} or
+@code{None}.  The first lines and columns are numbered @code{1}.  If
+the exact input position is not known, @code{input_position} is
+@code{None} or one or both of the integers are @code{0}.
+@end vtable
 
-The exact input position may not be always exact or known.  Typically,
-its value can be @code{None} or @code{(0, 0)} to indicate an unknown
-position.
-@end table
+The returned issue instances are not direct @code{Issue} instances.
+They are always instances of one of the following @code{Issue}
+subclasses:
 
-Additionally, all the returned issue instance classes are not
-@code{Issue}s directly, but one of its following subclasses:
-
-@table @code
+@vtable @code
+@cindex @code{Issue} subclasses
 @item Error
 Issue clearly identified as an error.
 
 @item Possible_Error
-Issue which is likely to be error, but it needs to be confirmed by
-a reviewer.
+Issue which is likely to be an error, but this must be confirmed by
+a reviewer first.
 
 @item Possible_Issue
-Issue which may or may not be error at all.  Reviewer must look at it
+Issue which may or may not be an error.  A reviewer must look at it
 and decide.
-@end table
+@end vtable
 
 @node Test Sets,  , The Issue Class, Using WAchecker
 @section Test Sets
+@cindex test sets
 
 Tests can be grouped into test sets.  Test sets typically correspond
 to particular Web accessibility standards.  Each test can be present
 in any number of test sets (consider HTML syntax checker or
 overlapping standards like Section 508 and WCAG 1.0).
 
-List of all available test sets can be retrieved using the
+@findex @code{all_test_sets}
+List of all available test sets can be retrieved with the
 @code{wachecker.test.all_test_sets ()} call, which returns sequence of
 pairs @code{(@var{test-set-class-name}, @var{test-set-class})}.
 
-All test sets are instances of the @code{wachecker.test.Test_Set}
-class, providing the following class methods:
+@vindex @code{Test_Set}
+All test sets are instances of the @code{wachecker.test.Test_Set}.
+That class defines the following @emph{class} methods:
 
 @ftable @code
 @item name (class_)
@@ -299,8 +332,8 @@ Return sequence of the tests contained in this test set.  Each of the
 tests is represented by its class.
 @end ftable
 
-Similarly to test sets, test classes contain several informative class
-methods.  The most important ones are:
+Test classes also define several such class methods.  The most
+important ones are:
 
 @ftable @code
 @item name (class_)
@@ -310,6 +343,7 @@ Return ``human readable'' name of the test as a string.
 Return short description of the test as a string.
 
 @item location (class_)
+@vindex @code{Location}
 Return @code{wachecker.location.Location} instance pointing to a Web
 page defining and describing accessibility issues related to the test,
 or @code{None} when there is no such Web page.
@@ -319,21 +353,22 @@ or @code{None} when there is no such Web page.
 
 @node Writing Tests, Contact Information, Using WAchecker, Top
 @chapter Writing Tests
+@cindex writing tests
 
-WAchecker is designed with extensibility of the test suite it manages
-in mind.  It is written in a popular scripting language
-@url{Python,http://www.python.org} to make it accessible to many
-programers and doesn't generally require any code change in it itself
-to add additional tests and test sets.
+WAchecker is designed with its extensibility in mind.  Additional
+tests can be generally added without any modifications to WAchecker.
+WAchecker is also written in a popular scripting language
+@uref{http://www.python.org,Python} to make it accessible to many
+programmers.
 
+@cindex sharing tests
 People interested in Web accessibility are encouraged to improve
 existing tests and write new ones.  If you do so, please share the
 results with other WAchecker users to help improving overall Web
 accessibility, see @ref{Contact Information}.
 
 This section is just a brief guideline to writing and improving test.
-Refer to test source code for examples and additional information
-about writing tests.
+Refer to test source code for examples and additional information.
 
 @menu
 * Writing New Tests::           
@@ -343,16 +378,23 @@ about writing tests.
 
 @node Writing New Tests, Defining Test Sets, Writing Tests, Writing Tests
 @section Writing New Tests
+@cindex adding tests
 
-New tests can be added to WAchecker in the directories defined in
-@code{wachecker.config.test_directories}.  The files starting with
-lowercase letters are reserved for tests, files starting with capital
-letters are reserved for test sets.
+@vindex @code{test_directories}
+New tests can be added to WAchecker by writing Python files and
+placing them into one of the directories defined in the
+@code{test_directories} variable in @file{config.py}.  Because tests
+must be loaded before test sets are defined, the following rule is
+defined to distinguish between test source files and test set source
+files: Python files whose names start with lowercase letters contain
+tests, while Python files whose names start with capital letters
+contain test sets.
 
-Each test is a subclass of the @code{wachecker.test.Test} class.  It
-should redefine the following class attributes:
+@vindex @code{Test}
+Each test is a subclass of the @code{wachecker.test.Test} class.  The
+following class attributes should be redefined in each new test class:
 
-@table @code
+@vtable @code
 @item _name
 ``Human readable'' test name.
 
@@ -361,124 +403,113 @@ Short description of the test.
 
 @item _url
 URL (as a string) containing information about accessibility issues
-related to the test or an empty string.
+related to the test, or an empty string.
 
 @item _state
+@cindex @code{Implementation_State}
 Implementation state of the test.  It must be one of the
-@code{Implementation_State} constants, usually
-@code{Implementation_State.COMPLETE}.
+@code{wachecker.test.Implementation_State} constants, usually
+@code{wachecker.test.Implementation_State.COMPLETE}.
 
 @item _version
 Version number of the test as an integer.  It should be increased each
 time the test implementation is modified in such a way that it can
 produce results different from the previous version.
-@end table
+@end vtable
 
+@findex @code{run_}
 The test functionality is implemented in the @code{_run (self,
-document)} method.  The method must return a list of
-@code{wachecker.test.Issue} instances (for more information about
-them, see @ref{The Issue Class}).
+document)} method (don't redefine the public @code{run} method!).  The
+method must return a list of @code{wachecker.test.Issue} instances
+(for more information about them, see @ref{The Issue Class}).
 
-Note that there are customized @code{wachecker.test.Test} subclasses
-in @code{wachecker.test} module that can be utilized for implementing
-test functionality.  Often you can use them and redefine their
-specialized methods instead of writing your own @code{run} method.
-Look into source code of tests for examples.
+Note the module @code{wachecker.test} contains several customized
+@code{wachecker.test.Test} subclasses which you can use for writing
+tests.  Often you can use them and redefine their specialized methods
+instead of writing your own @code{_run} methods.  Look into source
+code of tests for examples.
+
+All loaded test are placed into @code{wachecker.test} module.
 
 @node Defining Test Sets, Useful Utilities, Writing New Tests, Writing Tests
 @section Defining Test Sets
+@cindex writing test sets
 
-Test sets are placed in the same directory as tests, but their file
-names start with capital letters.  They are also automatically put
-into the module @code{wachecker.test}.
+Test set source files are placed in the same directory as tests, but
+their file names start with capital letters.  Loaded test sets are put
+into the same @code{wachecker.test} module as tests.
 
-You define a new test set by introducing new subclass of
-@code{wachecker.test.Test_Set}.  Each such subclass should redefine
-the following class attributes:
+@vindex @code{Test_Set}
+You define a new test set by defining new subclass of
+@code{wachecker.test.Test_Set}.  The following class attributes should
+be redefined in each new test set class:
 
-@table @code
+@vtable @code
 @item _name
 ``Human readable'' name of the test set.
 
-@item _description.
+@item _description
 Short description of the test set.
 
 @item _tests
 Tuple of test classes to include in the test set.
-@end table
+@end vtable
 
 @node Useful Utilities,  , Defining Test Sets, Writing Tests
 @section Useful Utilities
+@cindex utilities
 
 There is a number of useful utilities in WAchecker you can use when
 writing tests and possibly when defining test sets.  Here is short
-overview of some available modules:
+overview of some of the available modules:
 
-@table @code
+@vtable @code
 @item wachecker.util
 Set of miscellaneous small utilities, most of which should be present
 in any standard programming language library.
 
 @item wachecker.exception
-Defines WAchecker exceptions.  Generally, you should catch exceptions
-in your test and raise WAchecker exceptions instead if the exception
-cannot be handled in another way.
+@cindex exceptions
+Defines WAchecker exceptions.  You should catch exceptions in your
+tests and raise WAchecker exceptions instead of the original exception
+if the original exception cannot be handled.
 
 @item wachecker.document
+@cindex documents
 Representation of an (X)HTML document and its nodes, including
 functions for walking over the document.  This is also the place where
 (X)HTML documents get parsed.
 
 @item wachecker.location
+@cindex locations
 Everything related to URLs and page caching.
 
 @item wachecker.css
+@cindex CSS2 parser
 Simple CSS2 parser.  It is far from being perfect, but since no Python
 CSS2 parsing library is known to the author, something had to be
-written for the purpose of checking Web accessibility.  It contains a
-parser and a matcher.
-@end table
+written for the purpose of checking Web accessibility.  The module
+contains a CSS2 parser and node matcher.
+@end vtable
 
 @c ****************************************************************************
 
-@node Contact Information, Copying This Program, Writing Tests, Top
+@node Contact Information, Index, Writing Tests, Top
 @chapter Contact Information
-@cindex authors
 @cindex bugs
 @cindex contact
+@cindex home page
 
-If you want to report a bug on WAchecker, send complete information
-regarding the bug to the bug tracking address
-@email{wachecker@@bugs.freebsoft.org}.  If you have a patch to
-speechd-el, you can send it to the same address.
+WAchecker home page is located at
+@uref{http://www.freebsoft.org/wahelper}.
 
-If you have any questions, suggestions, or anything else to tell us,
-feel free to contact us at the e-mail address
-@email{web-accessibility@@freebsoft.org}.
-
-@c ****************************************************************************
-
-@node Copying This Program, Copying This Manual, Contact Information, Top
-@appendix GNU General Public License
-
-@cindex GPL, GNU General Public License
-@center Version 2, June 1991
-
-@include gpl.texi
+If you have any questions, suggestions, bug reports, patches, new
+tests or anything else to tell us, feel free to contact us at the
+mailing list @email{wahelper@@lists.freebsoft.org}.
 
 @c ****************************************************************************
 
-@node Copying This Manual, Index, Copying This Program, Top
-@appendix GNU Free Documentation License
-
-@cindex FDL, GNU Free Documentation License
-@center Version 1.2, November 2002
-
-@include fdl.texi
-
-@c ****************************************************************************
-
-@node Index,  , Copying This Manual, Top
+@node Index,  , Contact Information, Top
 @unnumbered Index
 
 @printindex cp
