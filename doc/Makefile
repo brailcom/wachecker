@@ -32,9 +32,9 @@ pdf: $(program).pdf
 %.pdf: %.texi
 	texi2pdf $<
 
-html: $(program)/index.html
-%/index.html: %.texi
-	$(MAKEINFO) --html $<
+html: html/index.html
+html/index.html: $(program).texi
+	$(MAKEINFO) --html -o html $<
 
 clean:
 	-rm -f *.aux *.cp *.cps *.fn *.ky *.log *.pg *.toc *.tp *.vr
@@ -43,4 +43,4 @@ distclean: clean
 
 maintainer-clean: distclean
 	-rm -f *.info *.pdf
-	-rm -rf wachecker
+	-rm -rf html
