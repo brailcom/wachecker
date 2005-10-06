@@ -1,0 +1,36 @@
+WAchecker
+=========
+
+WAchecker is a Python library serving for automated testing of Web
+accessibility.
+
+
+* Installation
+
+WAchecker requires the following software for its installation and operation:
+
+- Python 2.3 or higher.
+
+- Python distutils.  They are part of Python distribution, but some operating
+  system distributions deliver them in a separate package.
+
+- Yappy, a parser generator for Python, available at
+  http://www.ncc.up.pt/fado/Yappy/ or in your operating system distribution.
+
+After you have WAchecker downloaded and all the required software installed,
+you can perform installation in the following steps:
+
+- Unpack WAchecker distribution and switch to its top level directory.
+
+- Edit `config.py' file to your needs.  You may want to change especially the
+  `cache_directory' and `test_directories' variables.
+
+- Run `./setup.py install'.
+
+
+* Documentation
+
+You can find further information about WAchecker in its manual.  WAchecker
+manual is in the doc/ subdirectory.  You can build its Info, PDF and HTML
+versions by running `make info', `make pdf' and `make html' commands
+respectively in the doc/ subdirectory.
