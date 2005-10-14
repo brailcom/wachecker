@@ -52,10 +52,11 @@ class Location (object):
         """
         self._url = url
         self._local_copy_name_ = None
+        self._refresh_cache = refresh_cache
         if refresh_cache is util.undefined_argument:
-            self._refresh_cache = config.refresh_cache
+            self._refresh_cache_needed = config.refresh_cache
         else:
-            self._refresh_cache = refresh_cache
+            self._refresh_cache_needed = refresh_cache
         self._mime_type = mime_type and self._parse_mime_type (mime_type)
         self._headers = None
 
@@ -170,9 +171,9 @@ class Location (object):
         logger.with_action_log ('Fetching page', block)
 
     def _ensure_local_copy (self):
-        if not os.path.exists (self._local_copy_name ()) or self._refresh_cache:
+        if not os.path.exists (self._local_copy_name ()) or self._refresh_cache_needed:
             self._fetch ()
-            self._refresh_cache = False
+            self._refresh_cache_needed = False
         
     def _open (self):
         file_name = self.local_copy ()
@@ -254,4 +255,4 @@ class Location (object):
                 if not url_parsed[5]: # anchor
                     url_parsed[5] = self_parsed[5]
         full_url = urlparse.urlunparse (tuple (url_parsed))
-        return Location (full_url, mime_type=mime_type)
+        return Location (full_url, mime_type=mime_type, refresh_cache=self._refresh_cache)
