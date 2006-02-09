@@ -1,6 +1,6 @@
 ### test.py --- Framework for defining tests and test sets
 
-## Copyright (C) 2005 Brailcom, o.p.s.
+## Copyright (C) 2005, 2006 Brailcom, o.p.s.
 ##
 ## Author: Milan Zamazal <pdm@brailcom.org>
 ##
@@ -52,7 +52,7 @@ class Issue (object):
     def __str__ (self):
         pp = self.input_position ()
         position = '%d:%d' % (self.input_position () or (0, 0,))
-        data = self.data ()
+        data = self.data (encode=False)
         if data:
             data_ = ': %s' % (data,)
         else:
@@ -64,10 +64,13 @@ class Issue (object):
         """
         return self._description
 
-    def data (self):
+    def data (self, encode=True):
         """Return data associated with the problem or None.
         """
-        return self._data
+        data = self._data
+        if encode and isinstance (data, unicode):
+            data = data.encode ('utf-8')
+        return data
 
     def input_position (self):
         """Return starting position of the problem node in the source page.
