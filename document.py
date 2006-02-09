@@ -1,6 +1,6 @@
 ### document.py --- Representation of HTML document structure
 
-## Copyright (C) 2005 Brailcom, o.p.s.
+## Copyright (C) 2005, 2006 Brailcom, o.p.s.
 ##
 ## Author: Milan Zamazal <pdm@brailcom.org>
 ##
@@ -42,8 +42,8 @@ class Node (object):
         integers, or None.
         """
         self._parent = parent
-        self._name = name
-        self._attrs = attrs
+        self._name = str (name) # and not unicode
+        self._attrs = [(str (x[0]), x[1],) for x in attrs] # not unicode
         self._children = []
         self._text = ''
         self._style = {}
