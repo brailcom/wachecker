@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ### standard.py --- Tests of public standards
 
-## Copyright (C) 2005 Brailcom, o.p.s.
+## Copyright (C) 2005, 2006 Brailcom, o.p.s.
 ##
 ## Author: Milan Zamazal <pdm@brailcom.org>
 ##
@@ -169,10 +169,6 @@ class Test__WCAG_1__1_3 (Link_Watching_Test):
         tag = node.name ()
         if tag in ('object', 'applet', 'script',):
             issues.append (Possible_Issue (node, 'If the object is a multimedia presentation, check for audio description of the important information in it'))
-        elif tag in super (Test__WCAG_1__1_3, self)._sensitive_tags:
-            pass
-        else:
-            raise Exception ('case error', tag)
         return issues        
 
 class Test__WCAG_1__1_4 (Walking_Test):
