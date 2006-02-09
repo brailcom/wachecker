@@ -341,6 +341,7 @@ class Document (object):
                                                                   data=default_stylesheet_type.get ()))
             # Find base location of the document
             def set_base_location (node):
+                import location
                 current_location.set (location.Location (node.attr ('href')))
             self.for_tags (('base',), set_base_location)
             # Load stylesheets
