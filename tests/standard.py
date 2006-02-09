@@ -1275,7 +1275,7 @@ class Test__WCAG_1__12_3 (Test):
                                                    options[:3] + ['...']))
         for node in document.iter_all_nodes ():
             if len (node.text () or '') > _max_text_len:
-                issues.append (Possible_Issue (node, "Long undivided text", node.text[:20] + '...'))
+                issues.append (Possible_Issue (node, "Long undivided text", node.text ()[:20] + '...'))
         return issues
 
 class Test__WCAG_1__12_4 (Test):
