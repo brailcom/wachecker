@@ -109,10 +109,6 @@ class Test__WCAG_1__1_1 (Link_Watching_Test):
                 issues = self._check_alt (node)                
         elif tag == 'script':
             issues = self._check_script (node)
-        elif tag in super (Test__WCAG_1__1_1, self)._sensitive_tags:
-            pass
-        else:
-            raise Exception ('case error', tag)
         return issues
 
 class Test__WCAG_1__1_2 (Walking_Test):
