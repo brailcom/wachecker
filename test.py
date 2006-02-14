@@ -22,6 +22,7 @@
 
 import os
 
+from charseq import str
 from config import logger
 import config
 import copy
@@ -45,32 +46,29 @@ class Issue (object):
         'description' is a natural language string describing the problem.
         'data' can be arbitrary data complementing the description.
         """
-        self._description = description
+        self._description = str (description)
         self._input_position = node and node.input_position ()
-        self._data = data
+        self._data = util.str_ (data)
 
     def __str__ (self):
         pp = self.input_position ()
         position = '%d:%d' % (self.input_position () or (0, 0,))
-        data = self.data (encode=False)
+        data = self.data ()
         if data:
             data_ = ': %s' % (data,)
         else:
             data_ = ''
-        return ('%s: %s -- %s%s' % (position, self._classification, self.description (), data_)).encode ('utf-8')
+        return '%s: %s -- %s%s' % (position, self._classification, self.description (), data_,)
 
     def description (self):
         """Return problem description as a string.
         """
         return self._description
 
-    def data (self, encode=True):
+    def data (self):
         """Return data associated with the problem or None.
         """
-        data = self._data
-        if encode and isinstance (data, unicode):
-            data = data.encode ('utf-8')
-        return data
+        return self._data
 
     def input_position (self):
         """Return starting position of the problem node in the source page.

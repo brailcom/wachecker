@@ -1,6 +1,6 @@
 ### util.py --- Miscellaneous utilities
 
-## Copyright (C) 2005 Brailcom, o.p.s.
+## Copyright (C) 2005, 2006 Brailcom, o.p.s.
 ##
 ## Author: Milan Zamazal <pdm@brailcom.org>
 ##
@@ -23,6 +23,8 @@
 import copy
 import os
 import re
+
+import charseq
 
 
 # Very basic utilities which should be present in any standard language library
@@ -92,7 +94,7 @@ def concatenate (*sequences):
 
 
 def str_ (object):
-    """Same as 'str' except it applies 'str_' to sequence elements too.
+    """Same as 'charseq.str' except it applies 'str_' to sequence elements too.
     """
     if isinstance (object, list):
         result = '['
@@ -109,7 +111,7 @@ def str_ (object):
             result = result + ' ' + str_ (x) + ','
         result = result + ')'
     else:
-        result = str (object)
+        result = charseq.str (object)
     return result
 
 

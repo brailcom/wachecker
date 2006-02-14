@@ -25,6 +25,8 @@ import HTMLParser
 import string
 import StringIO
 
+from charseq import str
+from charseq import String as S
 import css
 import util
 
@@ -42,8 +44,8 @@ class Node (object):
         integers, or None.
         """
         self._parent = parent
-        self._name = str (name) # and not unicode
-        self._attrs = [(str (x[0]), x[1],) for x in attrs] # not unicode
+        self._name = str (name)
+        self._attrs = [(str (x[0]), x[1],) for x in attrs]
         self._children = []
         self._text = ''
         self._style = {}
@@ -55,7 +57,7 @@ class Node (object):
         return self._name
 
     def text (self):
-        """Return node's text.
+        """Return node's text, as a string.
         """
         if self.name ():
             text = ''
@@ -74,7 +76,7 @@ class Node (object):
             text_node.add_text (text)
             self.append_child (text_node)
         else:
-            self._text = self._text + text
+            self._text = self._text + str (text)
         
     def attr (self, name):
         """Return the value of the attribute named 'name'.
@@ -267,7 +269,7 @@ class Document (object):
     def add_text (self, text):
         """Add text to the current node.
         """
-        self._current_node.add_text (text)
+        self._current_node.add_text (S (text))
 
     def doctype (self):
         """Return document type as a string if set, or None.

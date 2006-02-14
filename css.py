@@ -1,6 +1,6 @@
 ### css.py --- Simple CSS parser
 
-## Copyright (C) 2005 Brailcom, o.p.s.
+## Copyright (C) 2005, 2006 Brailcom, o.p.s.
 ##
 ## Author: Milan Zamazal <pdm@brailcom.org>
 ##
@@ -26,6 +26,7 @@ import types
 
 import yappy.parser
 
+from charseq import str
 import config
 import location
 import util
@@ -338,11 +339,11 @@ def token_func (name):
     return func
 
 def string_token_func (x):
-    return (Tokens.STRING, x[1:-1],)
+    return (Tokens.STRING, str (x[1:-1]),)
 
 def url_token_func (x):
     url = x[x.find('"')+1:x.rfind('"')]
-    return (Tokens.URI, url,)
+    return (Tokens.URI, str (url),)
 
 tokens = [
     # Order here is important to resolve conflicts!
@@ -386,30 +387,6 @@ tokens = [
     ('\\.', token_func (Tokens.DOT),),
     ('.', '',),                 # delimiter
     ]
-
-# "Bug fix" class
-class Lexer (yappy.parser.Lexer):
-    
-    def scanOneRule(self,rule,st):
-        re = rule[0]
-        fun = rule[1]
-        if isinstance(st, types.StringType) or isinstance (st, types.UnicodeType):
-            if st == "": return st
-            m = re.search(st)
-            if not m: return st
-            else:
-                if m.start() == 0: left = ""
-                else: left = st[0:m.start()]
-                if m.end() == len(st): right = ""
-                else: right = st[m.end():]
-                if fun == "":
-                      return ("",left, self.scanOneRule(rule,right))
-                return (apply(fun,[st[m.start():m.end()]]),left,
-                        self.scanOneRule(rule,right))
-        else:
-            (match, left, right) = st
-            return (match, self.scanOneRule(rule,left),
-                    self.scanOneRule(rule,right))
 
 # Parser
 
@@ -633,10 +610,10 @@ properties_grammar = Grammar ('properties', grammar, 'declaration-list')
 def parse_stream (stream, location=None, use_parser_cache=True, grammar=standard_grammar):
     try:
         #yappy.parser._DEBUG = 1
-        lexer = Lexer (tokens)
+        lexer = yappy.parser.Lexer (tokens)
         parser = yappy.parser.LRparser (grammar.grammar (), grammar.cache_file_name (),
                                         util.if_ (use_parser_cache, 1, 0), yappy.parser.LALRtable)
-        text = util.read_stream (stream)
+        text = str (util.read_stream (stream))
         token_list = lexer.scan (text)
         first_error = True
         result = parser.parsing (token_list, context={'location': location})
