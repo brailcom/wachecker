@@ -1057,7 +1057,7 @@ class Test__WCAG_1__10_3 (Walking_Test):
 class Test__WCAG_1__10_4 (Walking_Test):
     
     _name = 'WCAG 1.0 checkpoint 10.4'
-    _description = "Until user agents (including assistive technologies) render side-by-side text correctly, provide a linear text alternative (on the current page or some other) for all tables that lay out text in parallel, word-wrapped columns."
+    _description = "Until user agents handle empty controls correctly, include default, place-holding characters in edit boxes and text areas."
     _url = 'http://www.w3.org/TR/WCAG10/#tech-place-holders'
     _state = Implementation_State.COMPLETE
     _version = 0
