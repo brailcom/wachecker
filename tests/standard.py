@@ -414,13 +414,14 @@ class Test__WCAG_1__3_6 (Walking_Test):
         if tag == 'ul':
             issues.append (Possible_Issue (node, "Check items of an unordered list are marked clearly"))
         elif tag == 'ol':
-            def block ():
+            def block (node=node):
                 while True:
                     parent = node.parent ()
                     if parent is None:
                         return False
                     elif parent.name () == 'ol':
                         return True
+                    node = node.parent ()
             if block ():
                 issues.append (Possible_Issue (node, "Check a nested ordered list uses "))
         return issues
