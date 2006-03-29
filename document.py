@@ -405,6 +405,11 @@ class Parser (HTMLParser.HTMLParser):
     # This is actually not an HTML parser, because HTMLParser.HTMLParser is
     # not.  Only tags are handled in a trivial (and sometimes incorrect) way.
 
+    # HTMLParser has bugs, the following paragraph work around them:
+    CDATA_CONTENT_ELEMENTS = ()
+    def unknown_decl (self, data):
+        pass
+
     def document (self):
         """Return the parsed document as a 'Document' instance.
         """
