@@ -451,7 +451,9 @@ class Parser (HTMLParser.HTMLParser):
     def handle_entityref (self, name):
         code = htmlentitydefs.name2codepoint.get (name)
         if not code:
-            raise Exception ('Unknown entity reference', name)
+            # This can be caused by another bug in HTMLParser, so let's ignore
+            # it.
+            return
         self._document.add_text (unichr (code))
 
     def handle_decl (self, declaration):
