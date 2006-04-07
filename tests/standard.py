@@ -78,9 +78,9 @@ class Test__WCAG_1__1_1 (Link_Watching_Test):
 
     def _check_object (self, node):
         issues = []
-        if node.data or node.children:
+        if node.text () or node.children ():
             issues.append (Possible_Issue (node, 'Check text alternatives to an OBJECT',
-                                           (node.data, node.children)))
+                                           (node.text (), node.children ())))
         else:
             issues.append (Error (node, 'No text alternative to an OBJECT'))
         return issues
