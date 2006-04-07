@@ -453,7 +453,7 @@ class Script_Test (Walking_Test):
     def _check_node (self, node):
         issues = super (Script_Test, self)._check_node (node)
         tag = node.name ()
-        if (tag == 'object' and tag.attr ('classid') or
+        if (tag == 'object' and node.attr ('classid') or
             tag in ('applet', 'script',)):
             issues = issues + self._check_script (node)
         return issues
