@@ -354,7 +354,7 @@ class Walking_Test (Test):
         'optgroup': ('disabled', 'label',),
         'option': ('selected', 'disabled', 'label', 'value',),
         'textarea': ('name', 'rows', 'cols', 'disabled', 'readonly',
-                     'onselect', 'onchange',),
+                     'onselect', 'onchange', 'accesskey', 'tabindex', 'onfocus', 'onblur',),
         'fieldset': (),
         'legend': ('accesskey', 'align',),
         'button': ('name', 'value', 'type', 'disabled',),
