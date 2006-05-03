@@ -401,9 +401,9 @@ class Walking_Test (Test):
                 if attrs is not None:
                     for a in node.attribute_names ():
                         if a not in attrs and not a in common_attrs:
-                            issues.append (Error (node, 'Internal: Unknown attribute', a))
+                            issues.append (Error (node, 'Unknown attribute', a))
             elif tag:
-                issues.append (Error (node, 'Internal: Unknown element', node.name))
+                issues.append (Error (node, 'Unknown element', node.name))
         document.for_all_nodes (walker)
         return issues
 
