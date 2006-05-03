@@ -265,6 +265,8 @@ class Document (object):
         """Finish processing of the current node.
         """
         self._current_node = self._current_node.parent ()
+        if self._current_node is None:
+            self._current_node = self._document
 
     def add_text (self, text):
         """Add text to the current node.
@@ -439,6 +441,8 @@ class Parser (HTMLParser.HTMLParser):
     def handle_endtag (self, tag):
         while True:
             self._document.close_tag ()
+            if not self._open_tags:
+                break
             closed_tag = self._open_tags.pop ()
             if closed_tag == tag or not self._open_tags:
                 break
