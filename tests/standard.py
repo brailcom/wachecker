@@ -482,7 +482,7 @@ class Test__WCAG_1__4_2 (Test):
             regex_abbrev = re.compile ('(\w+)\. (\w)', re.UNICODE)
             regex_other = re.compile ('.*[0-9_]')
             def check_text (node):
-                text = node.text ()
+                text = node.text_ ()
                 if text:
                     for match in regex_acronym.finditer(text):
                         word = match.group (0)
