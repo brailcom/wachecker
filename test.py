@@ -40,7 +40,7 @@ class Issue (object):
 
     _classification = 'ISSUE'
     
-    def __init__ (self, node, description, data=None):
+    def __init__ (self, node, description, data=util.undefined_argument):
         """Make issue related to 'node' described by 'description'.
         'node' must be a 'document.Node' instance.
         'description' is a natural language string describing the problem.
@@ -48,7 +48,10 @@ class Issue (object):
         """
         self._description = str (description)
         self._input_position = node and node.input_position ()
-        self._data = util.str_ (data)
+        if data is util.undefined_argument:
+            self._data = None
+        else:
+            self._data = util.str_ (data)
 
     def __str__ (self):
         pp = self.input_position ()
