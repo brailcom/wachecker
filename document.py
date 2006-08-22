@@ -68,13 +68,21 @@ class Node (object):
         else:
             return self._text
 
+    def text_ (self):
+        """If this is a text node, return its text, else return None.
+        """
+        if self.name ():
+            text = None
+        else:
+            text = self._text
+        return text
+
     def all_text (self):
         """Return node's text, included texts of its children, as a string.
         """
         text = ''
         for node in self.iter_subtree ():
-            if not node.name ():
-                text = text + node.text ()
+            text = text + (node.text_ () or '')
         return text
 
     def add_text (self, text):
