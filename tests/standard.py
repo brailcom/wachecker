@@ -994,8 +994,6 @@ class Test__WCAG_1__10_2 (Test):
 
     def _run (self, document):
         issues = []
-        labels = []
-        ok_nodes = []
         def find_inputs (node):
             inputs = []
             for n in node.children ():
@@ -1007,18 +1005,9 @@ class Test__WCAG_1__10_2 (Test):
                 else:
                     inputs = inputs + find_inputs (n)
             return inputs
-        for node in document.iter_tags (('label',)):
-            if node.attr ('for'):
-                labels.append (node.attr ('for'))
-            else:
-                inputs = find_inputs (node)
-                if len (inputs) == 1:
-                    ok_nodes.append (inputs[0])
         for node in document.iter_tags (('input',)):
-            if node in ok_nodes or node.attr ('id') in labels:
-                pass
-            else:
-                issues.append (Possible_Issue (node, "Check there is clearly associated label to the input field"))
+            if node.attr ('type') not in ('submit', 'reset', 'button', 'hidden',):
+                issues.append (Possible_Issue (node, "Check there is a label text clearly associated with the input field"))
         return issues
 
 class Test__WCAG_1__10_3 (Walking_Test):
