@@ -9,7 +9,7 @@
 @copying
 This manual is for WAchecker, @value{VERSION}.
 
-Copyright @copyright{} 2005 Brailcom, o.p.s.
+Copyright @copyright{} 2005, 2006 Brailcom, o.p.s.
 
 @quotation
 Permission is granted to copy, distribute and/or modify this document
@@ -216,18 +216,18 @@ location = wachecker.location.Location ('http://www.example.com',
 
 @item
 @cindex test
-@findex @code{load_all_tests}
+@findex @code{load_tests}
 @cindex @code{wachecker.test}
 Create a test instance:
 
 @example
 import wachecker.test
-wachecker.test.load_all_tests ()
+wachecker.test.load_tests ()
 test = wachecker.test.Test__WCAG_1__1_1 ()
 @end example
 
 @vindex @code{test_directories}
-The @code{load_all_tests} ensures all tests from the directories
+The @code{load_tests} ensures all tests from the directories
 defined the variable @code{test_directories} in @file{config.py} are
 loaded.  In this example, test testing for conformance with Web
 Content Accessibility Guidelines 1.0, checkpoint 1.0 is run.
