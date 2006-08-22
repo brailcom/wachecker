@@ -1302,9 +1302,7 @@ class Test__WCAG_1__13_1 (Walking_Test):
     def _check_node (self, node):
         issues = []
         if node.attr ('href'):
-            text = node.text ()
-            for n in node.iter_subtree ():
-                text = text + (n.text () or '')
+            text = node.all_text ()
             if re.match ('(click +)?here', text):
                 issues.append (Error (node, "Non-meaningful link text", text))
             else:
