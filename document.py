@@ -341,8 +341,9 @@ class Document (object):
                 self.for_tags (('meta',), check_stylesheet_type)
             if default_stylesheet_type:
                 if default_stylesheet_type.get () != 'text/css':
-                    errors.append (Unknown_Stylesheet_Type_Error (description="Unknown global stylesheet type",
-                                                                  data=default_stylesheet_type.get ()))
+                    errors.append (Unknown_Stylesheet_Type_Error (
+                            description="The specified page stylesheet is of unknown type",
+                            data=default_stylesheet_type.get ()))
             # Find base location of the document
             def set_base_location (node):
                 import location
