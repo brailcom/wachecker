@@ -89,9 +89,9 @@ class Test__WCAG_1__1_1 (Link_Watching_Test):
         issues = []
         sibling = node.next_sibling ()
         if sibling and sibling.name == 'noscript':
-            issues.append (Possible_Issue (node, 'Check NONSCRIPT contents', sibling))
+            issues.append (Possible_Issue (node, "Check NOSCRIPT version of the script", sibling))
         else:
-            issues.append (Error (node, 'No NONSCRIPT for a SCRIPT'))
+            issues.append (Error (node, "Script without NOSCRIPT"))
         return issues
 
     def _check_node (self, node):
