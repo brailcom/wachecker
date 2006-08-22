@@ -390,7 +390,7 @@ class Test__WCAG_1__3_5 (Test):
                     issues.append (Error (node, "Heading level skipped",
                                           'h%d--%s' % (last_level.get (), tag,)))
                 last_level.set (level)
-                headings.append ('%s: %s' % (tag, node.text (),))
+                headings.append ('%s: %s' % (tag, node.all_text (),))
         document.for_all_nodes (check_for_heading)
         if headings:
             issues.append (Possible_Issue (
