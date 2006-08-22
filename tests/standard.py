@@ -1084,7 +1084,7 @@ class Test__WCAG_1__10_5 (Walking_Test):
                         return node
                     else:
                         return None
-                text = node.text ()
+                text = node.all_text ()
                 if text:
                     return text
                 return None
@@ -1101,11 +1101,13 @@ class Test__WCAG_1__10_5 (Walking_Test):
                         message = "No space between links"
                     else:
                         message = "Adjacent links"
-                    issues.append (Possible_Error (node, message, (node.text (), link_or_text.text (), text,)))
+                    issues.append (Possible_Error (node, message,
+                                                   (node.all_text (), link_or_text.all_text (), text,)))
                     break
                 elif link_or_text:
                     text = text + link_or_text.replace ('&nbsp;', ' ').replace ('\n', ' ')
-                    if re.match ('.*([^\0-\40\200-\240].*\\s.*[^\0-\40\200-\240]|\\s.*[^\0-\40\200-\240].*\\s).*', text):
+                    if re.match ('.*([^\0-\40\200-\240].*\\s.*[^\0-\40\200-\240]|\\s.*[^\0-\40\200-\240].*\\s).*',
+                                 text):
                         break
                 children = next.children ()
                 if children:
