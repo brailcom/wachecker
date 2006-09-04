@@ -1,7 +1,7 @@
 \input texinfo    @c -*-texinfo-*-
 @comment %**start of header
 @setfilename wachecker.info
-@set VERSION 0.1
+@set VERSION 0.2
 @settitle WAchecker @value{VERSION}
 @syncodeindex fn cp
 @syncodeindex vr cp

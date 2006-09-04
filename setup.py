@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-## Copyright (C) 2005 Brailcom, o.p.s.
+## Copyright (C) 2005, 2006 Brailcom, o.p.s.
 ##
 ## Author: Milan Zamazal <pdm@brailcom.org>
 ##
@@ -24,7 +24,7 @@ from distutils.core import setup
 import distutils.command.build_py
 
 setup (name='WAchecker',
-       version='0.1',
+       version='0.2',
        description="Web Accessibility Evaluation Tool",
        author='Milan Zamazal',
        author_email='pdm@freebsoft.org',
